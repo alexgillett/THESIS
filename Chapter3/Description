@@ -11,18 +11,21 @@ We hope that this flexibility means that they can be used within stratified medi
 Two methods are presented. Each derive risk assuming a different model: 
 1. a liability threshold mixture model (probit type model), and,
 2. a log-linear model.
-In the R-code documents we denote the liability threshold mixture model by LTMM, and the log-linear model by LL.
+We denote the liability threshold mixture model by LTMM, and the log-linear model by LL.
 
 Files in this folder are:
-1. Appendix_C3.pdf : this pdf contains detailed derivations for the extensions presented in Chapter 3.
-2. riskLTMM_methodA : this .R file contains R code for the original LTMM method presented in Chapter 3. 
+1. Appendix_C3_LTM.pdf : this pdf contains a novel update of risk estimates derived using the classic liability threshold model (LTM).
+It switches the order of variable selection compared to current methods. A simulation study is also presented.
+2. Appendix_C3_LTMM.pdf : this pdf contains detailed derivations for the extensions to the LTMM approach, presented in Chapter 3.
+3. Appendix_C3_LL.pdf : this pdf contains detailed derivations for the extensions to the LL approach, presented in Chapter 3.
+4. riskLTMM_methodA : this .R file contains R code for the original LTMM method presented in Chapter 3. 
 Computational time for this method will increase as the number of included major genetic susceptibility loci and environmental risk factors increases.
-3. riskLTMM_methodB : this .R file contains R code for LTMM method B presented in Chapter 3. 
+5. riskLTMM_methodB : this .R file contains R code for LTMM method B presented in Chapter 3. 
 Method B only sums over rare discrete risk factors when the individual is observed to be a carrier.
-4. riskLTMM_methodC : this .R file contains R code for LTMM method C presented in Chapter 3.
+6. riskLTMM_methodC : this .R file contains R code for LTMM method C presented in Chapter 3.
 Method C is a Pearson-Aitken type approach, which reduces computation time (compared to method A) by assuming a normal distribution.
 Please see Chapter 3 for details.
-5. riskLL : this .R file contains R code for the LL method presented in Chapter 3.
+7. riskLL : this .R file contains R code for the LL method presented in Chapter 3.
 
 Code is annotated, however it is best understood having read the thesis chapter.
 All R code presented is for a single relative, but can be updated to include multiple relatives. 
