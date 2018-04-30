@@ -460,7 +460,7 @@ sigma2LRgI
 ### mu_LI_gIeI = numeric. Expected liability to disease for individual
 # {I} given their observed major genetic suspectibility loci and their
 # observed environmental risk factors. Can be found using function
-# mean_mI_f. It will be the first vector entry: output[1]
+# mean_mI_f with mI = 0. It will be the first vector entry: output[1]
 ### mu_LR_gI = numeric. Expected liability disease for relative {R}
 # given the observed major genetic susceptibility loci of individual
 # {I}. Found using function mu_LR_gI_f
@@ -539,19 +539,18 @@ for(i in 1:n_G){
 }
 df_G <- data.frame(df_G)
 combosR_G <- expand.grid(df_G)
-
+### Estimates the risk of disease for an individual with low risk (reference category)
+### environmental risk factors and carrying one major risk genotype at risk locus 1
 mu_LR_gI <- mu_LR_gI_f(gIvec=c(1, rep(0, 9)), tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
 sigma2_LR_gI <- sigma2_LR_gI_f(gIvec=c(1, rep(0, 9)), tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_gI, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
 mu_LI_gIeI <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
 mu_LI_gIeI <- mu_LI_gIeI[1]
 
-example.output <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=0, r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VAhG, VDhG=VDhG, YR=1, D_threshold D_threshold)
+example.output <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=0, r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
 
 ### multiple mI:
 mIvec <- c(-0.18, 0, 0.18)
 example.output.mI <- rep(0, length(mIvec))
 for(i in 1:length(mIvec)){
-	mu_i <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=mIvec[i])
-	mu_i <- mu_i[1]
-	example.output.mI[i] <- riskLTMM_methodC(mu_LI_gIeI=mu_i, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VAhG, VDhG=VDhG, YR=1, D_threshold D_threshold)
+	example.output.mI[i] <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
 }
