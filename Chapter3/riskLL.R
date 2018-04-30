@@ -168,9 +168,9 @@ jointG_I_R_function <- function(G_I, R, maf){
 	out_R
 }
 #####################################################################
-### MAIN FUNCTION ###################################################
+### MAIN FUNCTIONS ###################################################
 #####################################################################
-### Estimates the risk of disease for an individual {I} given their
+### 1. Estimates the risk of disease for an individual {I} given their
 # observed polygenic risk score (MI = mI), their observed set of 
 # major susceptibility risk genotypes (GI=gI), their observed set of
 # environmental risk factors, and their family history of disease.
@@ -216,9 +216,9 @@ jointG_I_R_function <- function(G_I, R, maf){
 # p(YI = 1 | YR = 1)/K
 #####################################################################
 # OUTPUT
-###
+### vector of length(mI_vec) containing the estimated risk of disease for 
+# the individuals where the i^th entry corresponds to mI_vec[i]
 riskLL <- function(mI_vec, eI_vec, gI_vec, f_vec, RR_Gmat, pEmat, RR_Emat, K, VM, R="P", r=0.5, lambdaR){
-
 ### Calculating lambda_RM:
 lambda_RM_function <- function(VM, r){
 	exp(r*VM)
@@ -270,6 +270,78 @@ out <- K*lambda_RU*mIc*gIc*eIc
 out
 }
 #####################################################################
+### 2. Estimates the risk of disease for an individual {I} given their
+# observed polygenic risk score (MI = mI), their observed set of 
+# major susceptibility risk genotypes (GI=gI) and their observed set 
+# of environmental risk factors
+# Function riskLL_woFH can output multiple risks for a vector of inputted
+# polygenic risk score values (but the same gI and eI values).
+# There is no family history variable- the disease status of a relative is
+# not considered and is used as an approximation to observing a negative
+# family hisory of disease
+# woFH stands for without family history
+#####################################################################
+# INPUTS
+### mI_vec = vector. The polygenic risk score of the individuals for whom
+# we wish to estimate risk (all denoted by {I})
+### eI_vec = vector. Length = number of included environmental risk
+# factors. Vector containing the observed environmental risk factors 
+# for individual {I} *Reference category = 1*
+### gI_vec = vector. Length = number of included major risk loci. Vector
+# containing the observed genotypes at the loci for individual {I}
+### f_vec = vector. Length = number of included major risk loci. 
+# Vector containing the minor (or risk) allele frequencies for the 
+# included major risk loci. Order of major risk loci must be the same as
+# in g_Ivec and g_Rvec
+### RR_Gmat = matrix. Dim = c(Q, 3); where Q is the number of major risk
+# loci (rows) and 3 is the number of possible genotypes. This assumes that
+# G_q is bi-allelic, q = 1, ..., Q
+### pEmat = matrix. dim = c(n_E, max(levelsE)); n_E = number of included 
+# environmental risk factors, max(levelsE) = maximum number of categories 
+# across all included environmental risk factors. This matrix contains the 
+# probability density function (PDF) for each risk factor. Each row 
+# contains the PDF for the i^th risk factor and therefore sums to 1. Column
+# 1 contains the probability for the reference categories
+### RR_Emat = matrix. Dimensions depends on the number of categories within 
+# each of the environmental risk factors. Number of rows = S (number of 
+# environmental risk factors). Number of columns = maximum number of categories
+# across all environmental risk factors
+### K = numeric. The population prevalence of disease
+### VM = the variability of the polygenic risk score, calculated using the
+# estimated relative risk of disease for each included SNP  
+#####################################################################
+# OUTPUT
+### vector of length(mI_vec) containing the estimated risk of disease for 
+# the individuals where the i^th entry corresponds to mI_vec[i]
+riskLL_woFH <- function(mI_vec, eI_vec, gI_vec, f_vec, RR_Gmat, pEmat,RR_Emat, K, VM){
+### m_I contribution...
+mIc <- exp(sqrt(VM)*mI_vec)/exp(0.5*VM)
+### g_I contribution:
+numer_g_I <- 1
+denom_g_I <- 1
+#numer_g_I2 <- 1
+for(i in 1:length(f_vec)){
+	gi <- gI_vec[i]
+	numer_g_I <- numer_g_I*RR_Gmat[i, (gi+1)]
+	fi <- f_vec[i]
+	if(gi == 0){pgi = (1-fi)^2}
+	if(gi == 1){pgi = 2*fi*(1-fi)}
+	if(gi == 2){pgi = fi^2}
+	denom_g_I <- denom_g_I*sum(c((1-fi)^2, 2*fi*(1-fi), fi^2)*RR_Gmat[i,])	
+	#pgr_g_gi <- jointG_I_R_function(G_I=gi, R=R, maf=fi)/pgi
+	#numer_g_I2 <- numer_g_I2*sum(pgr_g_gi*RR_Gmat[i,])
+}
+gIc <- numer_g_I/denom_g_I
+#gRc <- numer_g_I2/denom_g_I
+### environmental contribution...
+eIc <- 1
+for(i in 1:dim(pEmat)[1]){
+	eIc <- eIc*(RR_Emat[i, eI_vec[i]]/sum(pEmat[i,]*RR_Emat[i,]))
+}
+out <- K*mIc*gIc*eIc
+out
+}
+#####################################################################
 ### EXAMPLE OF USAGE ################################################
 #####################################################################
 ### Input definitions taken from Chapter 4 Schizophrenia example 
@@ -314,10 +386,17 @@ fcontrol_prs <- c(0.527, 0.301, 0.296, 0.677, 0.358, 0.164, 0.184, 0.685, 0.101,
 VMRR <- sum((log(ORprs)^2)*2*fcontrol_prs*(1-fcontrol_prs))
 mIvec <- round(quantile(rnorm(100000, mean=0, sd=sqrt(VMRR)), probs = c(0.25, 0.5, 0.75)), digits=2)
 
-### 'Risk' estimates:
+### 'Risk' estimates with FH positive
 ### low risk environmental risk factors, plus carrying risk genotype at major risk locus 1
 riskLL(mI_vec = mIvec, eI_vec=rep(1,5), gI_vec=c(1, rep(0,9)), f_vec=maf.vec, RR_Gmat=RR_Gmat, pEmat=pEmat, RR_Emat=RR_Emat, K=K, VM= VMRR, R="P", r=0.5, lambdaR=lambdaR1)
 ### high risk environmental risk factors, no risk genotypes at major genetic risk loci
 riskLL(mI_vec = mIvec, eI_vec=levelsE, gI_vec=rep(0, 10), f_vec=maf.vec, RR_Gmat=RR_Gmat, pEmat=pEmat, RR_Emat=RR_Emat, K=K, VM= VMRR, R="P", r=0.5, lambdaR=lambdaR1)
 ### high risk environmental risk factors, plus carrying risk genotype at major risk locus 1
 riskLL(mI_vec = mIvec, eI_vec=levelsE, gI_vec=c(1, rep(0,9)), f_vec=maf.vec, RR_Gmat=RR_Gmat, pEmat=pEmat, RR_Emat=RR_Emat, K=K, VM= VMRR, R="P", r=0.5, lambdaR=lambdaR1)
+### 'Risk' estimates without considering family history of disease
+### low risk environmental risk factors, plus carrying risk genotype at major risk locus 1
+riskLL_woFH(mI_vec = mIvec, eI_vec=rep(1,5), gI_vec=c(1, rep(0,9)), f_vec=maf.vec, RR_Gmat=RR_Gmat, pEmat=pEmat, RR_Emat=RR_Emat, K=K, VM= VMRR)
+### high risk environmental risk factors, no risk genotypes at major genetic risk loci
+riskLL_woFH(mI_vec = mIvec, eI_vec=levelsE, gI_vec=rep(0, 10), f_vec=maf.vec, RR_Gmat=RR_Gmat, pEmat=pEmat, RR_Emat=RR_Emat, K=K, VM= VMRR)
+### high risk environmental risk factors, plus carrying risk genotype at major risk locus 1
+riskLL_woFH(mI_vec = mIvec, eI_vec=levelsE, gI_vec=c(1, rep(0,9)), f_vec=maf.vec, RR_Gmat=RR_Gmat, pEmat=pEmat, RR_Emat=RR_Emat, K=K, VM= VMRR)
