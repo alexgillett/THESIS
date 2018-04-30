@@ -244,7 +244,7 @@ sigma_mI_f <- function(VM, VhG, VhE, H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0
 # scale for: 1. the genetic major risk loci and, 2. the environmental
 # risk factors. Please see description in Function 2. mean_mI_f for 
 # details 
-### maf.vec = vectors. Length = number of included major risk loci. 
+### maf.vec = vector. Length = number of included major risk loci. 
 # Vector containing the minor (or risk) allele frequencies for the 
 # included major risk loci. Order of major risk loci must be the same as
 # in g_Ivec
@@ -345,7 +345,7 @@ mean
 # scale for: 1. the genetic major risk loci and, 2. the environmental
 # risk factors. Please see description in Function 2. mean_mI_f for 
 # details 
-### maf.vec = vectors. Length = number of included major risk loci. 
+### maf.vec = vector. Length = number of included major risk loci. 
 # Vector containing the minor (or risk) allele frequencies for the 
 # included major risk loci. Order of major risk loci must be the same as
 # in g_Ivec

@@ -254,7 +254,7 @@ sigma_mI_f <- function(VM, VhG, VhE, H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0
 ### e_Rvec = vector. Length = number of included environmental risk
 # factors. Vector containing the observed environmental risk factors 
 # for relative {R}
-### maf.vec = vectors. Length = number of included major risk loci. 
+### maf.vec = vector. Length = number of included major risk loci. 
 # Vector containing the minor (or risk) allele frequencies for the 
 # included major risk loci. Order of major risk loci must be the same as
 # in g_Ivec and g_Rvec
@@ -428,7 +428,7 @@ EXACTrisk_working_function2A <- function(x, g_Ivec, e_Ivec, g_Rvec, e_Rvec, maf.
 ### e_Ivec = vector. Length = number of included environmental risk
 # factors. Vector containing the observed environmental risk factors 
 # for individual {I} *Reference category = 1*
-### maf.vec = vectors. Length = number of included major risk loci. 
+### maf.vec = vector. Length = number of included major risk loci. 
 # Vector containing the minor (or risk) allele frequencies for the 
 # included major risk loci. Order of major risk loci must be the same as
 # in g_Ivec and g_Rvec
@@ -561,7 +561,3 @@ riskLTMM_methodA <- function(mIvec, g_Ivec, e_Ivec, maf.vec, levelsE, pEmat, D_t
 # combosR_E <- combosR_E <- expand.grid(1:(levelsE[1]), 1:(levelsE[2]), 1:(levelsE[3]), 1:(levelsE[4]), 1:(levelsE[5]))
 
 # test_output <- riskLTMM_methodA(mIvec=c(0, 0.18), g_Ivec=rep(0,10), e_Ivec=rep(1,5), maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
-# test_output
-##           [,1]        [,2]
-##[1,] 0.02252807 0.001536799
-##[2,] 0.03370021 0.002807631

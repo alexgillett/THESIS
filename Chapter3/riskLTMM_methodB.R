@@ -261,7 +261,7 @@ sigma_mI_f <- function(VM, VhG, VhE, H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0
 ### e_Rvec = vector. Length = number of included environmental risk
 # factors. Vector containing the observed environmental risk factors 
 # for relative {R}
-### maf.vec = vectors. Length = number of included major risk loci. 
+### maf.vec = vector. Length = number of included major risk loci. 
 # Vector containing the minor (or risk) allele frequencies for the 
 # included major risk loci. Order of major risk loci must be the same as
 # in g_Ivec and g_Rvec
@@ -368,7 +368,7 @@ EXACTrisk_working_function2B <- function(x, g_Ivec, e_Ivec, g_Rvec, e_Rvec, maf.
 ### e_Ivec = vector. Length = number of included environmental risk
 # factors. Vector containing the observed environmental risk factors 
 # for individual {I} *Reference category = 1*
-### maf.vec = vectors. Length = number of included major risk loci. 
+### maf.vec = vector. Length = number of included major risk loci. 
 # Vector containing the minor (or risk) allele frequencies for the 
 # included major risk loci. Order of major risk loci must be the same as
 # in g_Ivec and g_Rvec
