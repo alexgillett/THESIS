@@ -1,0 +1,22 @@
+This folder contains supplementary work relating to Chapter 4 of the thesis by Alexandra Gillett.
+The chapter title is:
+Estimating the risk of Schizophrenia
+
+It applies risk estimation methods presented in Chapter 3 of the thesis to Schizophrenia.
+Risk is estimated using 2 possible models: the liability threshols mixture model (LTMM) or the log-linear (LL) model.
+No raw data is required to estimate the risk of disease. Instead, risk is estimated using summary statistics only.
+
+Files contained within this folder are:
+1. scz_example_part1.R
+This R-script estimates the risk of Schizophrenia using a polygenic risk score, 10 Schizophrenia-associated copy number 
+variants (CNVs), 5 environmental risk factors (cannabis use, migrant status, urbanicity, paternal age at conception and
+childhood trauma) and the disease status of a parent (family history)
+2. scz_example_part2.R
+This R-script estimates the risk of being a recently treated Schizophrenia case given the above variables, and the age
+and sex of both the individual for whom we are calculating risk, and their relative (parent).
+
+Detailed explanations of methods are given in Chapter 3 of the thesis.
+Detailed explanations of the risk estimation process for Schizophrenia and the results are presented in Chapter 4 of 
+the thesis.
+
+This thesis is currently under examination and is not available online. Once it is available links will be provided.
