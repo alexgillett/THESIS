@@ -539,7 +539,7 @@ riskLTMM_methodA <- function(mIvec, g_Ivec, e_Ivec, maf.vec, levelsE, pEmat, D_t
 #####################################################################
 ### Input definitions taken from Chapter 4 Schizophrenia example 
 # (without age and sex). Please see the example R-script located in: 
-# https://github.com/alexgillett/THESIS/Chapter4/
+# https://github.com/alexgillett/THESIS/tree/master/Chapter4
 # for details
 ### Example commented out as it takes a while to run (even though there
 # are only 2 polygenic risk score values)

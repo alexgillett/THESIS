@@ -514,43 +514,45 @@ riskLTMM_methodC <- function(mu_LI_gIeI, mu_LR_gI, sigma2_LR_gI, mI, r, theta, V
 #####################################################################
 ### Input definitions taken from Chapter 4 Schizophrenia example 
 # (without age and sex). Please see the example R-script located in: 
-# https://github.com/alexgillett/THESIS/Chapter4/
+# https://github.com/alexgillett/THESIS/tree/master/Chapter4
 # for details
-K <- 0.01
-H2 <- 0.81
-maf.vec <- c(3.964324e-05, 1.879158e-04, 8.171624e-05, 5.558299e-05, 3.568971e-04, 2.710037e-05, 2.825040e-05, 3.923439e-04, 1.247620e-03, 1.515856e-04)
-levelsE <- c(3,2,3,7,2)
-pEmat <- matrix(0, nrow=5, ncol=7)
-pEmat[1,1:3] <- c(0.700, 0.150, 0.150)
-pEmat[2,1:2] <- c(0.924, 0.076)
-pEmat[3,1:3] <- c(0.250, 0.250, 0.5000)
-pEmat[4,1:7] <- c(0.342, 0.204, 0.252, 0.123, 0.052, 0.019, 0.008)
-pEmat[5,1:2] <- c(0.730, 0.270)
-tau <- c(2.08765243, 4.17530487, 0.96454210, 1.92908420, 1.18513708, 2.37027416, 1.22811566, 2.45623132, 0.53911125, 1.07822251, 1.38076307, 2.76152614, 1.24530173, 2.49060346, -0.63870613, -1.27741226, 0.22611380, 0.45222760, 0.50321049, 1.00642097, 0.12484618, 0.38691427, 0.32064091, 0.14512302, 0.25144700, 0.02155491, 0.02155491, 0.04537918, 0.07416491, 0.07106093, 0.19254779, 0.38256397)
-D_threshold <- 2.712044
-VM <- 0.07
-VhG <- 0.002014081
-VhE <- 0.06625238
-combosR_E <- expand.grid(1:(levelsE[1]), 1:(levelsE[2]), 1:(levelsE[3]), 1:(levelsE[4]), 1:(levelsE[5]))
-n_G <- length(maf.vec)
-df_G <- NULL
-for(i in 1:n_G){
-	df_G <- cbind(df_G, 0:2)
-}
-df_G <- data.frame(df_G)
-combosR_G <- expand.grid(df_G)
-### Estimates the risk of disease for an individual with low risk (reference category)
-### environmental risk factors and carrying one major risk genotype at risk locus 1
-mu_LR_gI <- mu_LR_gI_f(gIvec=c(1, rep(0, 9)), tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
-sigma2_LR_gI <- sigma2_LR_gI_f(gIvec=c(1, rep(0, 9)), tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_gI, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
-mu_LI_gIeI <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
-mu_LI_gIeI <- mu_LI_gIeI[1]
+### Commented out so that if use source function to read in code, it
+# doesn't take ages to read in!
+# K <- 0.01
+# H2 <- 0.81
+# maf.vec <- c(3.964324e-05, 1.879158e-04, 8.171624e-05, 5.558299e-05, 3.568971e-04, 2.710037e-05, 2.825040e-05, 3.923439e-04, 1.247620e-03, 1.515856e-04)
+# levelsE <- c(3,2,3,7,2)
+# pEmat <- matrix(0, nrow=5, ncol=7)
+# pEmat[1,1:3] <- c(0.700, 0.150, 0.150)
+# pEmat[2,1:2] <- c(0.924, 0.076)
+# pEmat[3,1:3] <- c(0.250, 0.250, 0.5000)
+# pEmat[4,1:7] <- c(0.342, 0.204, 0.252, 0.123, 0.052, 0.019, 0.008)
+# pEmat[5,1:2] <- c(0.730, 0.270)
+# tau <- c(2.08765243, 4.17530487, 0.96454210, 1.92908420, 1.18513708, 2.37027416, 1.22811566, 2.45623132, 0.53911125, 1.07822251, 1.38076307, 2.76152614, 1.24530173, 2.49060346, -0.63870613, -1.27741226, 0.22611380, 0.45222760, 0.50321049, 1.00642097, 0.12484618, 0.38691427, 0.32064091, 0.14512302, 0.25144700, 0.02155491, 0.02155491, 0.04537918, 0.07416491, 0.07106093, 0.19254779, 0.38256397)
+# D_threshold <- 2.712044
+# VM <- 0.07
+# VhG <- 0.002014081
+# VhE <- 0.06625238
+# combosR_E <- expand.grid(1:(levelsE[1]), 1:(levelsE[2]), 1:(levelsE[3]), 1:(levelsE[4]), 1:(levelsE[5]))
+# n_G <- length(maf.vec)
+# df_G <- NULL
+# for(i in 1:n_G){
+	# df_G <- cbind(df_G, 0:2)
+# }
+# df_G <- data.frame(df_G)
+# combosR_G <- expand.grid(df_G)
+# ### Estimates the risk of disease for an individual with low risk (reference category)
+# ### environmental risk factors and carrying one major risk genotype at risk locus 1
+# mu_LR_gI <- mu_LR_gI_f(gIvec=c(1, rep(0, 9)), tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
+# sigma2_LR_gI <- sigma2_LR_gI_f(gIvec=c(1, rep(0, 9)), tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_gI, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
+# mu_LI_gIeI <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
+# mu_LI_gIeI <- mu_LI_gIeI[1]
 
-example.output <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=0, r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
+# example.output <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=0, r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
 
-### multiple mI:
-mIvec <- c(-0.18, 0, 0.18)
-example.output.mI <- rep(0, length(mIvec))
-for(i in 1:length(mIvec)){
-	example.output.mI[i] <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
-}
+# ### multiple mI:
+# mIvec <- c(-0.18, 0, 0.18)
+# example.output.mI <- rep(0, length(mIvec))
+# for(i in 1:length(mIvec)){
+	# example.output.mI[i] <- riskLTMM_methodC(mu_LI_gIeI=mu_LI_gIeI, mu_LR_gI=mu_LR_gI, sigma2_LR_gI=sigma2_LR_gI, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
+# }

@@ -507,26 +507,26 @@ riskLTMM_methodB <- function(mIvec, g_Ivec, e_Ivec, maf.vec, levelsE, pEmat, D_t
 #####################################################################
 ### Input definitions taken from Chapter 4 Schizophrenia example 
 # (without age and sex). Please see the example R-script located in: 
-# https://github.com/alexgillett/THESIS/Chapter4/
+# https://github.com/alexgillett/THESIS/tree/master/Chapter4
 # for details
-K <- 0.01
-H2 <- 0.81
-maf.vec <- c(3.964324e-05, 1.879158e-04, 8.171624e-05, 5.558299e-05, 3.568971e-04, 2.710037e-05, 2.825040e-05, 3.923439e-04, 1.247620e-03, 1.515856e-04)
-levelsE <- c(3,2,3,7,2)
-pEmat <- matrix(0, nrow=5, ncol=7)
-pEmat[1,1:3] <- c(0.700, 0.150, 0.150)
-pEmat[2,1:2] <- c(0.924, 0.076)
-pEmat[3,1:3] <- c(0.250, 0.250, 0.5000)
-pEmat[4,1:7] <- c(0.342, 0.204, 0.252, 0.123, 0.052, 0.019, 0.008)
-pEmat[5,1:2] <- c(0.730, 0.270)
-tau <- c(2.08765243, 4.17530487, 0.96454210, 1.92908420, 1.18513708, 2.37027416, 1.22811566, 2.45623132, 0.53911125, 1.07822251, 1.38076307, 2.76152614, 1.24530173, 2.49060346, -0.63870613, -1.27741226, 0.22611380, 0.45222760, 0.50321049, 1.00642097, 0.12484618, 0.38691427, 0.32064091, 0.14512302, 0.25144700, 0.02155491, 0.02155491, 0.04537918, 0.07416491, 0.07106093, 0.19254779, 0.38256397)
-D_threshold <- 2.712044
-VM <- 0.07
-VhG <- 0.002014081
-VhE <- 0.06625238
-combosR_E <- expand.grid(1:(levelsE[1]), 1:(levelsE[2]), 1:(levelsE[3]), 1:(levelsE[4]), 1:(levelsE[5]))
+# K <- 0.01
+# H2 <- 0.81
+# maf.vec <- c(3.964324e-05, 1.879158e-04, 8.171624e-05, 5.558299e-05, 3.568971e-04, 2.710037e-05, 2.825040e-05, 3.923439e-04, 1.247620e-03, 1.515856e-04)
+# levelsE <- c(3,2,3,7,2)
+# pEmat <- matrix(0, nrow=5, ncol=7)
+# pEmat[1,1:3] <- c(0.700, 0.150, 0.150)
+# pEmat[2,1:2] <- c(0.924, 0.076)
+# pEmat[3,1:3] <- c(0.250, 0.250, 0.5000)
+# pEmat[4,1:7] <- c(0.342, 0.204, 0.252, 0.123, 0.052, 0.019, 0.008)
+# pEmat[5,1:2] <- c(0.730, 0.270)
+# tau <- c(2.08765243, 4.17530487, 0.96454210, 1.92908420, 1.18513708, 2.37027416, 1.22811566, 2.45623132, 0.53911125, 1.07822251, 1.38076307, 2.76152614, 1.24530173, 2.49060346, -0.63870613, -1.27741226, 0.22611380, 0.45222760, 0.50321049, 1.00642097, 0.12484618, 0.38691427, 0.32064091, 0.14512302, 0.25144700, 0.02155491, 0.02155491, 0.04537918, 0.07416491, 0.07106093, 0.19254779, 0.38256397)
+# D_threshold <- 2.712044
+# VM <- 0.07
+# VhG <- 0.002014081
+# VhE <- 0.06625238
+# combosR_E <- expand.grid(1:(levelsE[1]), 1:(levelsE[2]), 1:(levelsE[3]), 1:(levelsE[4]), 1:(levelsE[5]))
 
-test_output1 <- riskLTMM_methodB(mIvec=c(-0.18, 0, 0.18), g_Ivec=rep(0,10), e_Ivec=rep(1,5), maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
-test_output1
-test_output2 <- riskLTMM_methodB(mIvec=c(-0.18, 0, 0.18), g_Ivec=c(1,rep(0,9)), e_Ivec=rep(1,5), maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
-test_output2
+# test_output1 <- riskLTMM_methodB(mIvec=c(-0.18, 0, 0.18), g_Ivec=rep(0,10), e_Ivec=rep(1,5), maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
+# test_output1
+# test_output2 <- riskLTMM_methodB(mIvec=c(-0.18, 0, 0.18), g_Ivec=c(1,rep(0,9)), e_Ivec=rep(1,5), maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
+# test_output2
