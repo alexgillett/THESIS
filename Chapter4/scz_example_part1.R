@@ -564,10 +564,10 @@ g1I <- c(1, rep(0,9))
 ### If going to run please update pathway for writing 
 # results to file...
 # ### 1. Min risk major loci, min risk environmental:
-outA_work <- riskLTMM_methodA(mIvec=mIvec, g_Ivec=gImin, e_Ivec=eImin, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
+# outA_work <- riskLTMM_methodA(mIvec=mIvec, g_Ivec=gImin, e_Ivec=eImin, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
 ### Create output matrix
-out_methodA <- cbind(rep(0, 6), rep(0,6), c(mIvec, mIvec), c(rep(1,3), rep(0,3)), c(outA_work[,1], outA_work[,2]))
-colnames(out_methodA) <- c("GI", "EI", "mI", "YR", "risk")
+# out_methodA <- cbind(rep(0, 6), rep(0,6), c(mIvec, mIvec), c(rep(1,3), rep(0,3)), c(outA_work[,1], outA_work[,2]))
+# colnames(out_methodA) <- c("GI", "EI", "mI", "YR", "risk")
 # ### 2. Min risk major loci, max risk environmental:
 # outA_work <- riskLTMM_methodA(mIvec=mIvec, g_Ivec=gImin, e_Ivec=eImax, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, D_threshold=D_threshold, tau=tau, VM=VM, VhG=VhG, VhE=VhE, H2=H2, h2=H2, VAhG=VhG, VDhG=0, r=0.5, theta=0.25, combosR_E=combosR_E, R="P")
 # ### Update output matrix:
@@ -613,52 +613,52 @@ colnames(out_methodB) <- c("GI", "EI", "mI", "YR", "risk")
 # for individual {R} takes time. Uncomment to run...
 ### Additional method C inputs:
 ### Possible combinations of major risk loci
-n_G <- length(maf.vec)
-df_G <- NULL
-for(i in 1:n_G){
-	df_G <- cbind(df_G, 0:2)
-}
-df_G <- data.frame(df_G)
-combosR_G <- expand.grid(df_G)
-### Means: LR | GI=gI
-# Min risk major loci
-mu_LR_gImin <- mu_LR_gI_f(gIvec=gImin, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
-# G1 == 1
-mu_LR_g1I <- mu_LR_gI_f(gIvec=g1I, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
-### Variances: LR | GI=gI
-# Min risk major loci
-sigma2_LR_gImin <- sigma2_LR_gI_f(gIvec=gImin, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_gImin, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
-# G1 == 1
-sigma2_LR_g1I <- sigma2_LR_gI_f(gIvec=g1I, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_g1I, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
-### Means individual I: 
-# using mI=0 regardless of mI value as want mean given GI and EI only here. 
-# Value used for x_R also does not matter- reference used.
-mu_LI_gImin_eImin <- mean_mI_f(tau=tau, x_I=c(0,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
-mu_LI_gImin_eImax <- mean_mI_f(tau=tau, x_I=c(0,0,rep(0, 2*9), 0, 1, 1, 0, 1, rep(0,5), 1, 1), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
-mu_LI_g1I_eImin <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
-mu_LI_g1I_eImax <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), 0, 1, 1, 0, 1, rep(0,5), 1, 1), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
-### Output from method C
-outC_gImin_eImin_YR1 <- rep(0, length(mIvec))
-outC_gImin_eImax_YR1 <- rep(0, length(mIvec))
-outC_g1I_eImin_YR1 <- rep(0, length(mIvec))
-outC_g1I_eImax_YR1 <- rep(0, length(mIvec))
-outC_gImin_eImin_YR0 <- rep(0, length(mIvec))
-outC_gImin_eImax_YR0 <- rep(0, length(mIvec))
-outC_g1I_eImin_YR0 <- rep(0, length(mIvec))
-outC_g1I_eImax_YR0 <- rep(0, length(mIvec))
-for(i in 1:length(mIvec)){
-	outC_gImin_eImin_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImin, mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
-	outC_gImin_eImin_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImin, mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
-	outC_gImin_eImax_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImax, mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
-	outC_gImin_eImax_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImax, mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
-	outC_g1I_eImin_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImin, mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
-	outC_g1I_eImin_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImin, mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
-	outC_g1I_eImax_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImax, mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
-	outC_g1I_eImax_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImax, mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
-}
-### Put into an output matrix
-out_methodC <- cbind(c(rep(1, 12), rep(0, 12)),c(rep(0, 6), rep(1,6), rep(0,6), rep(1,6)), rep(mIvec, 8), c(rep(1,3), rep(0,3), rep(1,3), rep(0,3), rep(1,3), rep(0,3), rep(1,3), rep(0,3)), c(outC_g1I_eImin_YR1, outC_g1I_eImin_YR0, outC_g1I_eImax_YR1, outC_g1I_eImax_YR0, outC_gImin_eImin_YR1, outC_gImin_eImin_YR0, outC_gImin_eImax_YR1, outC_gImin_eImax_YR0))
-colnames(out_methodC) <- c("GI", "EI", "mI", "YR", "risk")
+# n_G <- length(maf.vec)
+# df_G <- NULL
+# for(i in 1:n_G){
+	# df_G <- cbind(df_G, 0:2)
+# }
+# df_G <- data.frame(df_G)
+# combosR_G <- expand.grid(df_G)
+# ### Means: LR | GI=gI
+# # Min risk major loci
+# mu_LR_gImin <- mu_LR_gI_f(gIvec=gImin, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
+# # G1 == 1
+# mu_LR_g1I <- mu_LR_gI_f(gIvec=g1I, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", combosR_E=combosR_E, combosR_G=combosR_G)
+# ### Variances: LR | GI=gI
+# # Min risk major loci
+# sigma2_LR_gImin <- sigma2_LR_gI_f(gIvec=gImin, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_gImin, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
+# # G1 == 1
+# sigma2_LR_g1I <- sigma2_LR_gI_f(gIvec=g1I, tau=tau, maf.vec=maf.vec, levelsE=levelsE, pEmat=pEmat, R="P", mu_LR_gI=mu_LR_g1I, VhG=VhG, VhE=VhE, combosR_E=combosR_E, combosR_G=combosR_G)
+# ### Means individual I: 
+# # using mI=0 regardless of mI value as want mean given GI and EI only here. 
+# # Value used for x_R also does not matter- reference used.
+# mu_LI_gImin_eImin <- mean_mI_f(tau=tau, x_I=c(0,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
+# mu_LI_gImin_eImax <- mean_mI_f(tau=tau, x_I=c(0,0,rep(0, 2*9), 0, 1, 1, 0, 1, rep(0,5), 1, 1), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
+# mu_LI_g1I_eImin <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), rep(0,2), 0, rep(0, 2), rep(0,6), 0), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
+# mu_LI_g1I_eImax <- mean_mI_f(tau=tau, x_I=c(1,0,rep(0, 2*9), 0, 1, 1, 0, 1, rep(0,5), 1, 1), x_R=c(rep(0, 20), rep(0,12)), r=0.5, mI=0)
+# ### Output from method C
+# outC_gImin_eImin_YR1 <- rep(0, length(mIvec))
+# outC_gImin_eImax_YR1 <- rep(0, length(mIvec))
+# outC_g1I_eImin_YR1 <- rep(0, length(mIvec))
+# outC_g1I_eImax_YR1 <- rep(0, length(mIvec))
+# outC_gImin_eImin_YR0 <- rep(0, length(mIvec))
+# outC_gImin_eImax_YR0 <- rep(0, length(mIvec))
+# outC_g1I_eImin_YR0 <- rep(0, length(mIvec))
+# outC_g1I_eImax_YR0 <- rep(0, length(mIvec))
+# for(i in 1:length(mIvec)){
+	# outC_gImin_eImin_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImin[1], mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
+	# outC_gImin_eImin_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImin[1], mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
+	# outC_gImin_eImax_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImax[1], mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
+	# outC_gImin_eImax_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_gImin_eImax[1], mu_LR_gI= mu_LR_gImin, sigma2_LR_gI= sigma2_LR_gImin, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
+	# outC_g1I_eImin_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImin[1], mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
+	# outC_g1I_eImin_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImin[1], mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
+	# outC_g1I_eImax_YR1[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImax[1], mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=1, D_threshold=D_threshold)
+	# outC_g1I_eImax_YR0[i] <- riskLTMM_methodC(mu_LI_gIeI= mu_LI_g1I_eImax[1], mu_LR_gI= mu_LR_g1I, sigma2_LR_gI= sigma2_LR_g1I, mI=mIvec[i], r=0.5, theta=0, VM=VM, H2=H2, h2=H2, VhG=VhG, VhE=VhE, VAhG=VhG, VDhG=0, YR=0, D_threshold=D_threshold)
+# }
+# ### Put into an output matrix
+# out_methodC <- cbind(c(rep(1, 12), rep(0, 12)),c(rep(0, 6), rep(1,6), rep(0,6), rep(1,6)), rep(mIvec, 8), c(rep(1,3), rep(0,3), rep(1,3), rep(0,3), rep(1,3), rep(0,3), rep(1,3), rep(0,3)), c(outC_g1I_eImin_YR1, outC_g1I_eImin_YR0, outC_g1I_eImax_YR1, outC_g1I_eImax_YR0, outC_gImin_eImin_YR1, outC_gImin_eImin_YR0, outC_gImin_eImax_YR1, outC_gImin_eImax_YR0))
+# colnames(out_methodC) <- c("GI", "EI", "mI", "YR", "risk")
 ### Write output to file. Update file path and name:
 # write.csv(out_methodC, file="XXX/methodC_scz_example.csv")
 ###################################################
